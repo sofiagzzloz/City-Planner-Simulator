@@ -1,0 +1,124 @@
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+/* Controls */
+.controls {
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Tile Buttons */
+button:nth-child(1) { background-color: gray; color: white; }  /* Road */
+button:nth-child(2) { background-color: brown; color: white; }  /* Building */
+button:nth-child(3) { background-color: green; color: white; }  /* Park */
+button:nth-child(4) { background-color: #007bff; color: white; }  /* Save */
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 32px);
+  grid-gap: 2px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+/* Cell Colors */
+.cell.empty {
+  background-color: white;
+}
+
+.cell.road {
+  background-color: gray;
+}
+
+.cell.building {
+  background-color: brown;
+}
+
+.cell.park {
+  background-color: green;
+}
+
+/* Archive Section */
+.archive {
+  margin-top: 20px;
+}
+
+.archive h2 {
+  font-size: 18px;
+  color: #555;
+}
+
+.archive ul {
+  list-style: none;
+  padding: 0;
+}
+
+.archive li {
+  margin: 5px 0;
+}
+
+.archive button {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border 0.2s;
+  border: 1px solid transparent; /* Hide border by default */
+}
+
+.cell:hover {
+  border: 1px solid black; /* Show border on hover */
+}
