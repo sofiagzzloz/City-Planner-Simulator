@@ -47,11 +47,11 @@ A web-based city planning simulator that allows users to design city layouts by 
 ## Contributing
 
 Contributions are welcome! Follow these steps:
-	1.	Fork the repository
-	2.	Create a new branch (git checkout -b feature-name)
-	3.	Commit changes (git commit -m "Added new feature")
-	4.	Push to your fork (git push origin feature-name)
-	5.	Open a Pull Request
+- Fork the repository
+- Create a new branch (git checkout -b feature-name)
+- Commit changes (git commit -m "Added new feature")
+- Push to your fork (git push origin feature-name)
+- Open a Pull Request
 
 ## License
 This project is licensed under the MIT License.
