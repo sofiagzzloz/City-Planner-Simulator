@@ -14,14 +14,15 @@ const CityPlanner = () => {
     Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(EMPTY))
   );
   const [selectedTile, setSelectedTile] = useState(ROAD);
-  const [layoutId, setLayoutId] = useState("");
   const [layouts, setLayouts] = useState([]); // Archive list
+  const [history, setHistory] = useState([]); // Store previous states
 
   useEffect(() => {
     fetchLayouts(); // Load saved layouts on startup
   }, []);
 
   const handleTileClick = (row, col) => {
+    setHistory((prevHistory) => [...prevHistory, cityGrid]); // Save state before change
     const newGrid = cityGrid.map((r, rowIndex) =>
       r.map((cell, colIndex) =>
         rowIndex === row && colIndex === col ? selectedTile : cell
@@ -70,13 +71,11 @@ const CityPlanner = () => {
 
   const loadLayout = async (id) => {
     try {
-      console.log("Fetching layout with ID:", id);  // ✅ Debugging
-  
+      console.log("Fetching layout with ID:", id); // ✅ Debugging
       const response = await fetch(`${BACKEND_URL}/load-layout/${id}`);
       const data = await response.json();
-  
-      console.log("Received Response:", data);  // ✅ Debugging
-  
+      console.log("Received Response:", data); // ✅ Debugging
+
       if (response.ok) {
         if (data.layout && data.layout.grid_data) {
           console.log("Loaded Grid Data:", data.layout.grid_data);
@@ -109,7 +108,12 @@ const CityPlanner = () => {
     setCityGrid(newGrid);
   };
 
-
+  const undoLastChange = () => {
+    if (history.length > 0) {
+      setCityGrid(history[history.length - 1]); // Restore previous state
+      setHistory(history.slice(0, -1)); // Remove last history entry
+    }
+  };
 
   return (
     <div className="container">
@@ -121,43 +125,40 @@ const CityPlanner = () => {
         <button onClick={() => setSelectedTile(BUILDING)}>Building</button>
         <button onClick={() => setSelectedTile(PARK)}>Park</button>
         <button onClick={saveLayout}>Save Layout</button>
-        <button onClick={clearGrid} style={{ backgroundColor: "red", color: "white" }}>
-        Clear Grid
-      </button>
-      <button onClick={randomizeGrid} style={{ backgroundColor: "purple", color: "white" }}>
-        Randomize Layout
-      </button>
+        <button onClick={clearGrid} style={{ backgroundColor: "red", color: "white" }}>Clear Grid</button>
+        <button onClick={randomizeGrid} style={{ backgroundColor: "purple", color: "white" }}>Randomize Layout</button>
+        <button onClick={undoLastChange} style={{ backgroundColor: "orange", color: "white" }}>Undo</button>
       </div>
 
-      {/* Grid */}
-      <div className="grid">
-        {cityGrid.map((row, rowIndex) => (
-          <div key={rowIndex} className="row">
-            {row.map((cell, colIndex) => (
-              <div
-                key={colIndex}
-                className={`cell ${cell}`}
-                onClick={() => handleTileClick(rowIndex, colIndex)}
-                style={{
-                  width: 30,
-                  height: 30,
-                  border: "1px solid black",
-                  display: "inline-block",
-                  margin: 2,
-                  backgroundColor:
-                    cell === ROAD
-                      ? "gray"
-                      : cell === BUILDING
-                      ? "brown"
-                      : cell === PARK
-                      ? "green"
-                      : "white",
-                }}
-              ></div>
-            ))}
-          </div>
-        ))}
-      </div>
+      <div className="grid" style={{ 
+  display: "grid",
+  gridTemplateColumns: `repeat(10, 32px)`, // Force correct columns
+  gridTemplateRows: `repeat(10, 32px)`, // Force correct rows
+  gap: "2px"
+}}>
+  {cityGrid.map((row, rowIndex) =>
+    row.map((cell, colIndex) => (
+      <div
+        key={`${rowIndex}-${colIndex}`}
+        className={`cell ${cell}`}
+        onClick={() => handleTileClick(rowIndex, colIndex)}
+        style={{
+          width: 30,
+          height: 30,
+          border: "1px solid black",
+          backgroundColor:
+            cell === ROAD
+              ? "gray"
+              : cell === BUILDING
+              ? "brown"
+              : cell === PARK
+              ? "green"
+              : "white",
+        }}
+      ></div>
+    ))
+  )}
+</div>
 
       {/* Archive Section */}
       <div className="archive">
@@ -181,3 +182,4 @@ const CityPlanner = () => {
 };
 
 export default CityPlanner;
+

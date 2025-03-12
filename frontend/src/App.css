@@ -51,8 +51,9 @@ button:nth-child(4) { background-color: #007bff; color: white; }  /* Save */
 /* Grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(10, 32px);
-  grid-gap: 2px;
+  grid-template-columns: repeat(10, 32px); /* 10 columns */
+  grid-template-rows: repeat(10, 32px); /* 10 rows */
+  gap: 2px; /* Keeps spacing between cells */
   justify-content: center;
   margin-top: 10px;
 }
@@ -60,7 +61,7 @@ button:nth-child(4) { background-color: #007bff; color: white; }  /* Save */
 .cell {
   width: 30px;
   height: 30px;
-  border: 1px solid black;
+  border: 1px solid black;  /* Ensures grid lines are always visible */
   display: flex;
   align-items: center;
   justify-content: center;
